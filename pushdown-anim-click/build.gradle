@@ -10,8 +10,8 @@ ext {
 
     libraryDescription = 'A library for Android developers who want to create "push down animation click" for view like spotify application.'
 
-    siteUrl = 'https://github.com/TheKhaeng/push-down-anim'
-    gitUrl = 'https://github.com/TheKhaeng/push-down-anim.git'
+    siteUrl = 'https://github.com/TheKhaeng/pushdown-anim-click'
+    gitUrl = 'https://github.com/TheKhaeng/pushdown-anim-click.git'
 
     libraryVersion = '1.0.0'
 
@@ -49,12 +49,7 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.android.support:appcompat-v7:26.0.2'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.1', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
+    compile 'com.android.support:appcompat-v7:26.0.2'
 }
 
 apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'

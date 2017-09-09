@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 
 /**
- * Created by「 The Khaeng 」on 09 Sep 2017 :)
+ * Created by The Khaeng on 09 Sep 2017
  */
 
 public class PushDownAnim{

@@ -1,1 +1,1 @@
-include ':app', ':pushDownAnimLib'
+include ':app', ':pushdown-anim-click'

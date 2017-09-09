@@ -1,10 +1,13 @@
-package com.thekhaeng.pushdownanim;
+package com.thekhaeng.pushdownanimexample;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+
+import com.thekhaeng.pushdownanim.PushDownAnim;
+
 
 public class MainActivity extends AppCompatActivity{
 
@@ -18,12 +21,6 @@ public class MainActivity extends AppCompatActivity{
 
         button = findViewById( R.id.button );
         music = findViewById( R.id.music );
-//        music.setOnClickListener( new View.OnClickListener(){
-//            @Override
-//            public void onClick( View view ){
-//
-//            }
-//        } );
 
         PushDownAnim.setOnTouchPushDownAnim( music );
         PushDownAnim.setOnTouchPushDownAnim( button )
