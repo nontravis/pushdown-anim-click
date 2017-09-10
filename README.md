@@ -19,12 +19,17 @@ clone repo and build it :)
 
 Maven
 ```xml
-comming soon...
+<dependency>
+  <groupId>com.github.thekhaeng</groupId>
+  <artifactId>pushdown-anim-click</artifactId>
+  <version>1.0.1</version>
+  <type>pom</type>
+</dependency>
 ```
 
 Gradle
 ```gradle
-comming soon...
+compile 'com.github.thekhaeng:pushdown-anim-click:1.0.1'
 ```
 
 ## 「 Usage 」

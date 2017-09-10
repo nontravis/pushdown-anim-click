@@ -89,8 +89,13 @@ public class PushDownAnim{
                                 scale,
                                 durationPush,
                                 interpolatorPush );
-                    }else if( i == MotionEvent.ACTION_UP
-                            || i == MotionEvent.ACTION_CANCEL ){
+                    }else if( i == MotionEvent.ACTION_UP ){
+                        view.performClick();
+                        animScale( view,
+                                1.0f,
+                                durationRelease,
+                                interpolatorRelease );
+                    }else if( i == MotionEvent.ACTION_CANCEL ){
                         animScale( view,
                                 1.0f,
                                 durationRelease,

@@ -12,6 +12,7 @@ ext {
 
     siteUrl = 'https://github.com/TheKhaeng/pushdown-anim-click'
     gitUrl = 'https://github.com/TheKhaeng/pushdown-anim-click.git'
+    githubRepository= 'TheKhaeng/pushdown-anim-click'
 
     libraryVersion = '1.0.0'
 
@@ -52,5 +53,6 @@ dependencies {
     compile 'com.android.support:appcompat-v7:26.0.2'
 }
 
-apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
-apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'
+apply from: 'https://raw.githubusercontent.com/nisrulz/JCenter/master/installv1.gradle'
+apply from: 'https://raw.githubusercontent.com/nisrulz/JCenter/master/bintrayv1.gradle'
+
