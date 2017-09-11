@@ -116,6 +116,11 @@ public class PushDownAnim{
                                     durationRelease,
                                     interpolatorRelease );
                         }
+                    }else if( i == MotionEvent.ACTION_CANCEL ){
+                        animScale( view,
+                                defaultScale,
+                                durationRelease,
+                                interpolatorRelease );
                     }else if( i == MotionEvent.ACTION_UP ){
                         if( !isOutSide ){
                             setViewAnimate( view, false );

@@ -14,7 +14,7 @@ ext {
     gitUrl = 'https://github.com/TheKhaeng/pushdown-anim-click.git'
     githubRepository= 'TheKhaeng/pushdown-anim-click'
 
-    libraryVersion = '1.0.2'
+    libraryVersion = '1.0.3'
 
     developerId = 'nonthawit'
     developerName = 'Nonthawit Doungsodsri'
@@ -34,7 +34,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 26
         versionCode 1
-        versionName "1.0.2"
+        versionName "1.0.3"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
