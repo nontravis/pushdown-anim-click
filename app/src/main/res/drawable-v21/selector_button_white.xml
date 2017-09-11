@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ripple xmlns:android="http://schemas.android.com/apk/res/android"
-        android:color="@color/colorAccentDark">
+        android:color="@color/colorAccent">
     <item
         android:id="@android:id/mask"
-        android:drawable="@drawable/button_green_normal"/>
-    <item android:drawable="@drawable/button_green_normal"/>
+        android:drawable="@drawable/button_white_normal"/>
+    <item android:drawable="@drawable/button_white_normal"/>
 </ripple>
