@@ -32,21 +32,20 @@ public class PushDownAnim{
 
     private PushDownAnim( View view ){
         this.view = view;
+        this.view.setClickable( true );
         defaultScale = view.getScaleX();
     }
 
     public static PushDownAnim setOnTouchPushDownAnim( View view,
                                                        View.OnTouchListener eventListener ){
         PushDownAnim pushAnim = new PushDownAnim( view );
-        pushAnim.setOnTouchEvent( eventListener )
-                .setOnClickListener( null );
+        pushAnim.setOnTouchEvent( eventListener );
         return pushAnim;
     }
 
     public static PushDownAnim setOnTouchPushDownAnim( View view ){
         PushDownAnim pushAnim = new PushDownAnim( view );
-        pushAnim.setOnTouchEvent( null )
-                .setOnClickListener( null );
+        pushAnim.setOnTouchEvent( null );
         return pushAnim;
     }
 
@@ -86,8 +85,8 @@ public class PushDownAnim{
     private PushDownAnim setOnTouchEvent( final View.OnTouchListener eventListener ){
         if( view != null ){
             view.setOnTouchListener( new View.OnTouchListener(){
-                public boolean isOutSide;
-                public Rect rect;
+                boolean isOutSide;
+                Rect rect;
 
                 @Override
                 public boolean onTouch( View view, MotionEvent motionEvent ){
