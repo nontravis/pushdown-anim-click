@@ -29,7 +29,9 @@ Maven
 
 Gradle
 ```gradle
-compile 'com.github.thekhaeng:pushdown-anim-click:1.0.7'
+compile( 'com.github.thekhaeng:pushdown-anim-click:1.0.7' ){
+    exclude group: 'com.android.support'
+}
 ```
 
 ## 「 Usage 」
