@@ -29,6 +29,7 @@ public class PushDownAnim{
     private AccelerateDecelerateInterpolator interpolatorPush = DEFAULT_INTERPOLATOR;
     private AccelerateDecelerateInterpolator interpolatorRelease = DEFAULT_INTERPOLATOR;
     private View view;
+    private AnimatorSet scaleAnimSet;
 
     private PushDownAnim( View view ){
         this.view = view;
@@ -92,7 +93,6 @@ public class PushDownAnim{
                 public boolean onTouch( View view, MotionEvent motionEvent ){
                     int i = motionEvent.getAction();
                     if( i == MotionEvent.ACTION_DOWN ){
-                        setViewAnimate( view, false );
                         isOutSide = false;
                         rect = new Rect(
                                 view.getLeft(),
@@ -121,9 +121,6 @@ public class PushDownAnim{
                                 durationRelease,
                                 interpolatorRelease );
                     }else if( i == MotionEvent.ACTION_UP ){
-                        if( !isOutSide ){
-                            setViewAnimate( view, false );
-                        }
                         animScale( view,
                                 defaultScale,
                                 durationRelease,
@@ -146,53 +143,42 @@ public class PushDownAnim{
                             long duration,
                             TimeInterpolator interpolator ){
 
-        if( !isViewAnimate( view ) ){
-            ObjectAnimator scaleX = ObjectAnimator.ofFloat( view, "scaleX", scale );
-            ObjectAnimator scaleY = ObjectAnimator.ofFloat( view, "scaleY", scale );
-            scaleX.setInterpolator( interpolator );
-            scaleX.setDuration( duration );
-            scaleY.setInterpolator( interpolator );
-            scaleY.setDuration( duration );
-
-            AnimatorSet scaleAnimSet = new AnimatorSet();
-            scaleAnimSet
-                    .play( scaleX )
-                    .with( scaleY );
-            scaleX.addListener( new AnimatorListenerAdapter(){
-                @Override
-                public void onAnimationStart( Animator animation ){
-                    super.onAnimationStart( animation );
-                    setViewAnimate( view, true );
-                }
-
-                @Override
-                public void onAnimationEnd( Animator animation ){
-                    super.onAnimationEnd( animation );
-                    setViewAnimate( view, false );
-                }
-            } );
-            scaleX.addUpdateListener( new ValueAnimator.AnimatorUpdateListener(){
-                @Override
-                public void onAnimationUpdate( ValueAnimator valueAnimator ){
-                    View p = (View) view.getParent();
-                    p.invalidate();
-                }
-            } );
-            scaleAnimSet.start();
-        }
-    }
-
-    private boolean isViewAnimate(View view){
-        if( view.getTag( R.string.tag_anim_state ) == null ){
-            view.setTag( R.string.tag_anim_state, false );
-            return false;
+        view.animate().cancel();
+        if( scaleAnimSet != null ){
+            scaleAnimSet.cancel();
         }
 
-        return (boolean) view.getTag( R.string.tag_anim_state );
+        ObjectAnimator scaleX = ObjectAnimator.ofFloat( view, "scaleX", scale );
+        ObjectAnimator scaleY = ObjectAnimator.ofFloat( view, "scaleY", scale );
+        scaleX.setInterpolator( interpolator );
+        scaleX.setDuration( duration );
+        scaleY.setInterpolator( interpolator );
+        scaleY.setDuration( duration );
+
+        scaleAnimSet = new AnimatorSet();
+        scaleAnimSet
+                .play( scaleX )
+                .with( scaleY );
+        scaleX.addListener( new AnimatorListenerAdapter(){
+            @Override
+            public void onAnimationStart( Animator animation ){
+                super.onAnimationStart( animation );
+            }
+
+            @Override
+            public void onAnimationEnd( Animator animation ){
+                super.onAnimationEnd( animation );
+            }
+        } );
+        scaleX.addUpdateListener( new ValueAnimator.AnimatorUpdateListener(){
+            @Override
+            public void onAnimationUpdate( ValueAnimator valueAnimator ){
+                View p = (View) view.getParent();
+                if( p != null ) p.invalidate();
+            }
+        } );
+        scaleAnimSet.start();
     }
 
-    private void setViewAnimate(View view, boolean isAnimate){
-        view.setTag( R.string.tag_anim_state, isAnimate );
-    }
 
 }
