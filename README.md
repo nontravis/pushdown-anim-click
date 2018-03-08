@@ -1,6 +1,8 @@
-# **「 Push Down Anim Click 」**
+# **「 Push Down Animation Click 」**
 
 ![alt text](./pictures/logo.png)
+
+[![Build Status](https://travis-ci.org/TheKhaeng/pushdown-anim-click.svg?branch=master)](https://travis-ci.org/TheKhaeng/pushdown-anim-click) [ ![Download](https://api.bintray.com/packages/nonthawit/TheKhaeng/pushdown-anim-click/images/download.svg) ](https://bintray.com/nonthawit/TheKhaeng/pushdown-anim-click/_latestVersion)
 
 #### A library for Android developers who want to create "push down animation click" for view like spotify application. :)
 
