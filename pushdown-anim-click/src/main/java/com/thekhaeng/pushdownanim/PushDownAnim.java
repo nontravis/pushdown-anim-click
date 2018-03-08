@@ -126,11 +126,7 @@ public class PushDownAnim{
                                 durationRelease,
                                 interpolatorRelease );
                     }
-                    if( eventListener != null ){
-                        return eventListener.onTouch( view, motionEvent );
-                    }else{
-                        return false;
-                    }
+                    return eventListener != null && eventListener.onTouch( view, motionEvent );
                 }
             } );
         }

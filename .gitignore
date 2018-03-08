@@ -3,6 +3,7 @@
 *.apk
 *.ap_
 reports/
+pushlibrary.gradle
 
 # Files for the ART/Dalvik VM
 *.dex
