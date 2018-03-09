@@ -91,7 +91,7 @@ Unless required by applicable law or agreed to in writing, software distributed 
 ### Developed By Thai android developer.
 
 
-<img src="./pictures/profile2_circle.png" width="170"> ![alt text](./pictures/thekhaeng_logo.png)
+[<img src="./pictures/profile2_circle.png" width="170">](https://www.facebook.com/nonthawit) [![TheKhaeng](./pictures/thekhaeng_logo.png)](https://www.facebook.com/thekhaeng.io/)
 
 
 Follow [facebook.com/thekhaeng.io](https://www.facebook.com/thekhaeng.io) on Facebook page.
