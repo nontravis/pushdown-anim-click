@@ -16,6 +16,10 @@
 clone repo and build it :)
 ```
 
+## 「 UPDATE 」
+- **version: 1.0.8**
+	- change `setOnTouchPushDownAnim(...)` to `setPushDownAnimTo(...) `
+	- can set multiple view at `setPushDownAnimTo(...)`
 
 ## 「 Installation 」
 
@@ -24,14 +28,14 @@ Maven
 <dependency>
   <groupId>com.github.thekhaeng</groupId>
   <artifactId>pushdown-anim-click</artifactId>
-  <version>1.0.7</version>
+  <version>1.0.8</version>
   <type>pom</type>
 </dependency>
 ```
 
 Gradle
 ```gradle
-compile( 'com.github.thekhaeng:pushdown-anim-click:1.0.7' ){
+compile( 'com.github.thekhaeng:pushdown-anim-click:1.0.8' ){
     exclude group: 'com.android.support'
 }
 ```
@@ -41,7 +45,7 @@ compile( 'com.github.thekhaeng:pushdown-anim-click:1.0.7' ){
 ```java
 Button button = findViewById( R.id.button );
 
-PushDownAnim.setOnTouchPushDownAnim( button )
+PushDownAnim.setPushDownAnimTo( button, ... )
         .setOnClickListener( new View.OnClickListener(){
             @Override
             public void onClick( View view ){
@@ -52,16 +56,11 @@ PushDownAnim.setOnTouchPushDownAnim( button )
 
 ```
 
+
 #### full option
 
 ```java
-PushDownAnim.setOnTouchPushDownAnim( button,
-        new View.OnTouchListener(){
-            @Override
-            public boolean onTouch( View view, MotionEvent motionEvent ){
-                return false;
-            }
-        } )
+PushDownAnim.setPushDownAnimTo( button, ... )
         .setScale( PushDownAnim.DEFAULT_PUSH_SCALE )
         .setDurationPush( PushDownAnim.DEFAULT_PUSH_DURATION )
         .setDurationRelease( PushDownAnim.DEFAULT_RELEASE_DURATION )
@@ -71,6 +70,12 @@ PushDownAnim.setOnTouchPushDownAnim( button,
             @Override
             public void onClick( View view ){
                 Toast.makeText( MainActivity.this, "PUSH DOWN !!", Toast.LENGTH_SHORT ).show();
+            }
+        } )
+        .setOnTouchEvent( new View.OnTouchListener(){
+            @Override
+            public boolean onTouch( View view, MotionEvent motionEvent ){
+                return false;
             }
         } );
 

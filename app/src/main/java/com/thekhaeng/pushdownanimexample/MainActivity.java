@@ -25,18 +25,28 @@ public class MainActivity extends AppCompatActivity{
         button2 = findViewById( R.id.button2 );
         music = findViewById( R.id.music );
 
-        PushDownAnim.setOnTouchPushDownAnim( music );
-        PushDownAnim.setOnTouchPushDownAnim( button1 )
+        PushDownAnim.setPushDownAnimTo( music )
                 .setOnClickListener( getClickListener() );
-        PushDownAnim.setOnTouchPushDownAnim( button2 )
+        PushDownAnim.setPushDownAnimTo( button1 )
+                .setOnClickListener( getClickListener() );
+        PushDownAnim.setPushDownAnimTo( button2 )
                 .setOnClickListener( getClickListener() );
 //        [equal]
-//        PushDownAnim.setOnTouchPushDownAnim( button,null )
+//        PushDownAnim.setPushDownAnimTo( button )
 //                .setScale( PushDownAnim.DEFAULT_PUSH_SCALE )
 //                .setDurationPush( PushDownAnim.DEFAULT_PUSH_DURATION )
 //                .setDurationRelease( PushDownAnim.DEFAULT_RELEASE_DURATION )
 //                .setInterpolatorPush( PushDownAnim.DEFAULT_INTERPOLATOR )
-//                .setInterpolatorRelease( PushDownAnim.DEFAULT_INTERPOLATOR );
+//                .setInterpolatorRelease( PushDownAnim.DEFAULT_INTERPOLATOR
+//                .setOnClickListener( getClickListener() );
+//        [equal]
+//        PushDownAnim.setPushDownAnimTo( music,button1,button2 )
+//                .setScale( PushDownAnim.DEFAULT_PUSH_SCALE )
+//                .setDurationPush( PushDownAnim.DEFAULT_PUSH_DURATION )
+//                .setDurationRelease( PushDownAnim.DEFAULT_RELEASE_DURATION )
+//                .setInterpolatorPush( PushDownAnim.DEFAULT_INTERPOLATOR )
+//                .setInterpolatorRelease( PushDownAnim.DEFAULT_INTERPOLATOR )
+//                .setOnClickListener( getClickListener() );
     }
 
     @NonNull
@@ -44,7 +54,13 @@ public class MainActivity extends AppCompatActivity{
         return new View.OnClickListener(){
             @Override
             public void onClick( View view ){
-                Toast.makeText( MainActivity.this, "PUSH DOWN !!", Toast.LENGTH_SHORT ).show();
+                if( view == music ){
+                    Toast.makeText( MainActivity.this, "PUSH DOWN 1 !!", Toast.LENGTH_SHORT ).show();
+                }else if( view == button1){
+                    Toast.makeText( MainActivity.this, "PUSH DOWN 2 !!", Toast.LENGTH_SHORT ).show();
+                }else if( view == button2){
+                    Toast.makeText( MainActivity.this, "PUSH DOWN 3 !!", Toast.LENGTH_SHORT ).show();
+                }
             }
 
         };

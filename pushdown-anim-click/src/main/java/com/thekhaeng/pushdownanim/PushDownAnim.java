@@ -15,7 +15,7 @@ import android.view.animation.AccelerateDecelerateInterpolator;
  * Created by The Khaeng on 09 Sep 2017
  */
 
-public class PushDownAnim{
+public class PushDownAnim implements PushDown{
     public static final float DEFAULT_PUSH_SCALE = 0.97f;
     public static final long DEFAULT_PUSH_DURATION = 50;
     public static final long DEFAULT_RELEASE_DURATION = 125;
@@ -37,98 +37,114 @@ public class PushDownAnim{
         defaultScale = view.getScaleX();
     }
 
-    public static PushDownAnim setOnTouchPushDownAnim( View view,
-                                                       View.OnTouchListener eventListener ){
-        PushDownAnim pushAnim = new PushDownAnim( view );
-        pushAnim.setOnTouchEvent( eventListener );
-        return pushAnim;
-    }
 
-    public static PushDownAnim setOnTouchPushDownAnim( View view ){
+    public static PushDownAnim setPushDownAnimTo( View view ){
         PushDownAnim pushAnim = new PushDownAnim( view );
         pushAnim.setOnTouchEvent( null );
         return pushAnim;
     }
 
-    public PushDownAnim setScale( float scale ){
+    public static PushDownAnimList setPushDownAnimTo( View... views ){
+        return new PushDownAnimList( views );
+    }
+
+
+    @Override
+    public PushDown setScale( float scale ){
         this.scale = scale;
         return this;
     }
 
-    public PushDownAnim setDurationPush( long duration ){
+    @Override
+    public PushDown setDurationPush( long duration ){
         this.durationPush = duration;
         return this;
     }
 
-    public PushDownAnim setDurationRelease( long duration ){
+    @Override
+    public PushDown setDurationRelease( long duration ){
         this.durationRelease = duration;
         return this;
     }
 
-    public PushDownAnim setInterpolatorPush( AccelerateDecelerateInterpolator interpolatorPush ){
+    @Override
+    public PushDown setInterpolatorPush( AccelerateDecelerateInterpolator interpolatorPush ){
         this.interpolatorPush = interpolatorPush;
         return this;
     }
 
-    public PushDownAnim setInterpolatorRelease( AccelerateDecelerateInterpolator interpolatorRelease ){
+    @Override
+    public PushDown setInterpolatorRelease( AccelerateDecelerateInterpolator interpolatorRelease ){
         this.interpolatorRelease = interpolatorRelease;
         return this;
     }
 
-
-    public PushDownAnim setOnClickListener( View.OnClickListener clickListener ){
+    @Override
+    public PushDown setOnClickListener( View.OnClickListener clickListener ){
         if( view != null ){
             view.setOnClickListener( clickListener );
         }
         return this;
     }
 
-    private PushDownAnim setOnTouchEvent( final View.OnTouchListener eventListener ){
+    @Override
+    public PushDown setOnTouchEvent( final View.OnTouchListener eventListener ){
         if( view != null ){
-            view.setOnTouchListener( new View.OnTouchListener(){
-                boolean isOutSide;
-                Rect rect;
+            if( eventListener == null ){
+                view.setOnTouchListener( new View.OnTouchListener(){
+                    boolean isOutSide;
+                    Rect rect;
 
-                @Override
-                public boolean onTouch( View view, MotionEvent motionEvent ){
-                    int i = motionEvent.getAction();
-                    if( i == MotionEvent.ACTION_DOWN ){
-                        isOutSide = false;
-                        rect = new Rect(
-                                view.getLeft(),
-                                view.getTop(),
-                                view.getRight(),
-                                view.getBottom() );
-                        animScale( view,
-                                scale,
-                                durationPush,
-                                interpolatorPush );
-                    }else if( i == MotionEvent.ACTION_MOVE ){
-                        if( rect != null
-                                && !isOutSide
-                                && !rect.contains(
-                                view.getLeft() + (int) motionEvent.getX(),
-                                view.getTop() + (int) motionEvent.getY() ) ){
-                            isOutSide = true;
+                    @Override
+                    public boolean onTouch( View view, MotionEvent motionEvent ){
+                        int i = motionEvent.getAction();
+                        if( i == MotionEvent.ACTION_DOWN ){
+                            isOutSide = false;
+                            rect = new Rect(
+                                    view.getLeft(),
+                                    view.getTop(),
+                                    view.getRight(),
+                                    view.getBottom() );
+                            animScale( view,
+                                    scale,
+                                    durationPush,
+                                    interpolatorPush );
+                        }else if( i == MotionEvent.ACTION_MOVE ){
+                            if( rect != null
+                                    && !isOutSide
+                                    && !rect.contains(
+                                    view.getLeft() + (int) motionEvent.getX(),
+                                    view.getTop() + (int) motionEvent.getY() ) ){
+                                isOutSide = true;
+                                animScale( view,
+                                        defaultScale,
+                                        durationRelease,
+                                        interpolatorRelease );
+                            }
+                        }else if( i == MotionEvent.ACTION_CANCEL ){
+                            animScale( view,
+                                    defaultScale,
+                                    durationRelease,
+                                    interpolatorRelease );
+                        }else if( i == MotionEvent.ACTION_UP ){
                             animScale( view,
                                     defaultScale,
                                     durationRelease,
                                     interpolatorRelease );
                         }
-                    }else if( i == MotionEvent.ACTION_CANCEL ){
-                        animScale( view,
-                                defaultScale,
-                                durationRelease,
-                                interpolatorRelease );
-                    }else if( i == MotionEvent.ACTION_UP ){
-                        animScale( view,
-                                defaultScale,
-                                durationRelease,
-                                interpolatorRelease );
+                        return false;
                     }
-                    return eventListener != null && eventListener.onTouch( view, motionEvent );
-                }
-            } );
+                } );
+
+            }else{
+                view.setOnTouchListener( new View.OnTouchListener(){
+
+                    @Override
+                    public boolean onTouch( View v, MotionEvent motionEvent ){
+                        return eventListener.onTouch( view, motionEvent );
+                    }
+                } );
+            }
         }
 
         return this;

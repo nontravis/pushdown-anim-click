@@ -43,7 +43,7 @@ dependencies {
 
     compile(project(':pushdown-anim-click'))
 
-//    compile( 'com.github.thekhaeng:pushdown-anim-click:1.0.7' ){
+//    compile( 'com.github.thekhaeng:pushdown-anim-click:1.0.8' ){
 //        exclude group: 'com.android.support'
 //    }
 

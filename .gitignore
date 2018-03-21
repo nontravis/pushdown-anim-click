@@ -5,6 +5,13 @@
 reports/
 pushlibrary*
 
+# Media
+resources/
+*.ai
+*.psd
+*.svg
+
+
 # Files for the ART/Dalvik VM
 *.dex
 
