@@ -20,5 +20,7 @@ public interface PushDown{
 
     PushDown setOnClickListener( View.OnClickListener clickListener );
 
+    PushDown setOnLongClickListener( View.OnLongClickListener clickListener );
+
     PushDown setOnTouchEvent( View.OnTouchListener eventListener );
 }

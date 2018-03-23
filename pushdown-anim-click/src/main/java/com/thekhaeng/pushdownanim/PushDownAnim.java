@@ -35,6 +35,7 @@ public class PushDownAnim implements PushDown{
         this.view = view;
         this.view.setClickable( true );
         defaultScale = view.getScaleX();
+
     }
 
 
@@ -88,6 +89,14 @@ public class PushDownAnim implements PushDown{
     }
 
     @Override
+    public PushDown setOnLongClickListener( View.OnLongClickListener clickListener ){
+        if( view != null ){
+            view.setOnLongClickListener( clickListener );
+        }
+        return this;
+    }
+
+    @Override
     public PushDown setOnTouchEvent( final View.OnTouchListener eventListener ){
         if( view != null ){
             if( eventListener == null ){
@@ -97,40 +106,42 @@ public class PushDownAnim implements PushDown{
 
                     @Override
                     public boolean onTouch( View view, MotionEvent motionEvent ){
-                        int i = motionEvent.getAction();
-                        if( i == MotionEvent.ACTION_DOWN ){
-                            isOutSide = false;
-                            rect = new Rect(
-                                    view.getLeft(),
-                                    view.getTop(),
-                                    view.getRight(),
-                                    view.getBottom() );
-                            animScale( view,
-                                    scale,
-                                    durationPush,
-                                    interpolatorPush );
-                        }else if( i == MotionEvent.ACTION_MOVE ){
-                            if( rect != null
-                                    && !isOutSide
-                                    && !rect.contains(
-                                    view.getLeft() + (int) motionEvent.getX(),
-                                    view.getTop() + (int) motionEvent.getY() ) ){
-                                isOutSide = true;
+                        if( view.isClickable() ){
+                            int i = motionEvent.getAction();
+                            if( i == MotionEvent.ACTION_DOWN ){
+                                isOutSide = false;
+                                rect = new Rect(
+                                        view.getLeft(),
+                                        view.getTop(),
+                                        view.getRight(),
+                                        view.getBottom() );
+                                animScale( view,
+                                        scale,
+                                        durationPush,
+                                        interpolatorPush );
+                            }else if( i == MotionEvent.ACTION_MOVE ){
+                                if( rect != null
+                                        && !isOutSide
+                                        && !rect.contains(
+                                        view.getLeft() + (int) motionEvent.getX(),
+                                        view.getTop() + (int) motionEvent.getY() ) ){
+                                    isOutSide = true;
+                                    animScale( view,
+                                            defaultScale,
+                                            durationRelease,
+                                            interpolatorRelease );
+                                }
+                            }else if( i == MotionEvent.ACTION_CANCEL ){
+                                animScale( view,
+                                        defaultScale,
+                                        durationRelease,
+                                        interpolatorRelease );
+                            }else if( i == MotionEvent.ACTION_UP ){
                                 animScale( view,
                                         defaultScale,
                                         durationRelease,
                                         interpolatorRelease );
                             }
-                        }else if( i == MotionEvent.ACTION_CANCEL ){
-                            animScale( view,
-                                    defaultScale,
-                                    durationRelease,
-                                    interpolatorRelease );
-                        }else if( i == MotionEvent.ACTION_UP ){
-                            animScale( view,
-                                    defaultScale,
-                                    durationRelease,
-                                    interpolatorRelease );
                         }
                         return false;
                     }

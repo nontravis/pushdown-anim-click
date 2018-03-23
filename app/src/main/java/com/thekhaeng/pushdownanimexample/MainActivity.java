@@ -25,12 +25,19 @@ public class MainActivity extends AppCompatActivity{
         button2 = findViewById( R.id.button2 );
         music = findViewById( R.id.music );
 
+        // music.setEnabled( false ); // if you want to disable click
         PushDownAnim.setPushDownAnimTo( music )
-                .setOnClickListener( getClickListener() );
+                .setOnClickListener( getClickListener() )
+                .setOnLongClickListener( getLongClickListener() );
+
         PushDownAnim.setPushDownAnimTo( button1 )
-                .setOnClickListener( getClickListener() );
+                .setOnClickListener( getClickListener() )
+                .setOnLongClickListener( getLongClickListener() );
+
         PushDownAnim.setPushDownAnimTo( button2 )
-                .setOnClickListener( getClickListener() );
+                .setOnClickListener( getClickListener() )
+                .setOnLongClickListener( getLongClickListener() );
+
 //        [equal]
 //        PushDownAnim.setPushDownAnimTo( button )
 //                .setScale( PushDownAnim.DEFAULT_PUSH_SCALE )
@@ -38,7 +45,8 @@ public class MainActivity extends AppCompatActivity{
 //                .setDurationRelease( PushDownAnim.DEFAULT_RELEASE_DURATION )
 //                .setInterpolatorPush( PushDownAnim.DEFAULT_INTERPOLATOR )
 //                .setInterpolatorRelease( PushDownAnim.DEFAULT_INTERPOLATOR
-//                .setOnClickListener( getClickListener() );
+//                .setOnClickListener( getClickListener() )
+//                .setOnLongClickListener( getLongClickListener() );
 //        [equal]
 //        PushDownAnim.setPushDownAnimTo( music,button1,button2 )
 //                .setScale( PushDownAnim.DEFAULT_PUSH_SCALE )
@@ -46,7 +54,8 @@ public class MainActivity extends AppCompatActivity{
 //                .setDurationRelease( PushDownAnim.DEFAULT_RELEASE_DURATION )
 //                .setInterpolatorPush( PushDownAnim.DEFAULT_INTERPOLATOR )
 //                .setInterpolatorRelease( PushDownAnim.DEFAULT_INTERPOLATOR )
-//                .setOnClickListener( getClickListener() );
+//                .setOnClickListener( getClickListener() )
+//                .setOnLongClickListener( getLongClickListener() );
     }
 
     @NonNull
@@ -56,13 +65,32 @@ public class MainActivity extends AppCompatActivity{
             public void onClick( View view ){
                 if( view == music ){
                     Toast.makeText( MainActivity.this, "PUSH DOWN 1 !!", Toast.LENGTH_SHORT ).show();
-                }else if( view == button1){
+                }else if( view == button1 ){
                     Toast.makeText( MainActivity.this, "PUSH DOWN 2 !!", Toast.LENGTH_SHORT ).show();
-                }else if( view == button2){
+                }else if( view == button2 ){
                     Toast.makeText( MainActivity.this, "PUSH DOWN 3 !!", Toast.LENGTH_SHORT ).show();
                 }
             }
 
         };
     }
+
+    @NonNull
+    private View.OnLongClickListener getLongClickListener(){
+        return new View.OnLongClickListener(){
+            @Override
+            public boolean onLongClick( View view ){
+                if( view == music ){
+                    Toast.makeText( MainActivity.this, "LONG PUSH DOWN 1 !!", Toast.LENGTH_SHORT ).show();
+                }else if( view == button1 ){
+                    Toast.makeText( MainActivity.this, "LONG PUSH DOWN 2 !!", Toast.LENGTH_SHORT ).show();
+                }else if( view == button2 ){
+                    Toast.makeText( MainActivity.this, "LONG PUSH DOWN 3 !!", Toast.LENGTH_SHORT ).show();
+                }
+                return true; // true: not effect to single click
+            }
+        };
+    }
+
+
 }

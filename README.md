@@ -17,6 +17,9 @@ clone repo and build it :)
 ```
 
 ## 「 UPDATE 」
+- **version: 1.0.9**
+	- add `setOnLongClickListener(...)`
+
 - **version: 1.0.8**
 	- change `setOnTouchPushDownAnim(...)` to `setPushDownAnimTo(...) `
 	- can set multiple view at `setPushDownAnimTo(...)`
@@ -28,14 +31,14 @@ Maven
 <dependency>
   <groupId>com.github.thekhaeng</groupId>
   <artifactId>pushdown-anim-click</artifactId>
-  <version>1.0.8</version>
+  <version>1.0.9</version>
   <type>pom</type>
 </dependency>
 ```
 
 Gradle
 ```gradle
-compile( 'com.github.thekhaeng:pushdown-anim-click:1.0.8' ){
+compile( 'com.github.thekhaeng:pushdown-anim-click:1.0.9' ){
     exclude group: 'com.android.support'
 }
 ```
@@ -55,7 +58,6 @@ PushDownAnim.setPushDownAnimTo( button, ... )
         } );
 
 ```
-
 
 #### full option
 
@@ -80,6 +82,30 @@ PushDownAnim.setPushDownAnimTo( button, ... )
         } );
 
 ```
+
+
+## 「 Long Click 」
+
+```java
+@Override
+public boolean onLongClick( View view ){
+    ...
+    return true; // true: not effect to single click
+}
+```
+
+>NOTE: If you do not want to trigger a normal click **`return true`**
+
+## 「 Disable Click Programmatically 」
+
+if your project has logic that want to disable click programmatically.
+
+```java
+button.setEnabled( false );
+```
+
+>NOTE: Do not use **`button.setClickable(false)`** it is not effective.
+
 
 
 # Licence

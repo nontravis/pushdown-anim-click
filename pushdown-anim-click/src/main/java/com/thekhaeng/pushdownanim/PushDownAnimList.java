@@ -75,6 +75,16 @@ public class PushDownAnimList implements PushDown{
         return this;
     }
 
+    @Override
+    public PushDown setOnLongClickListener( View.OnLongClickListener clickListener ){
+        for( PushDownAnim pushDown : pushDownList ){
+            if( clickListener != null ){
+                pushDown.setOnLongClickListener( clickListener );
+            }
+        }
+        return this;
+    }
+
     public PushDownAnimList setOnTouchEvent( final View.OnTouchListener eventListener ){
         for( PushDownAnim pushDown : pushDownList ){
             if( eventListener != null ){
