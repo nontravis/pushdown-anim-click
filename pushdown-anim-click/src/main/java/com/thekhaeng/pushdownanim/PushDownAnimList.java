@@ -23,11 +23,18 @@ public class PushDownAnimList implements PushDown{
         }
     }
 
-
     @Override
     public PushDownAnimList setScale( float scale ){
         for( PushDownAnim pushDown : pushDownList ){
             pushDown.setScale( scale );
+        }
+        return this;
+    }
+
+    @Override
+    public PushDown setScale( int mode, float scale ){
+        for( PushDownAnim pushDown : pushDownList ){
+            pushDown.setScale( mode, scale );
         }
         return this;
     }

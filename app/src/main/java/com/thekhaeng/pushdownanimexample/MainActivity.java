@@ -26,21 +26,22 @@ public class MainActivity extends AppCompatActivity{
         music = findViewById( R.id.music );
 
         // music.setEnabled( false ); // if you want to disable click
-        PushDownAnim.setPushDownAnimTo( music )
-                .setOnClickListener( getClickListener() )
-                .setOnLongClickListener( getLongClickListener() );
-
-        PushDownAnim.setPushDownAnimTo( button1 )
-                .setOnClickListener( getClickListener() )
-                .setOnLongClickListener( getLongClickListener() );
-
-        PushDownAnim.setPushDownAnimTo( button2 )
-                .setOnClickListener( getClickListener() )
-                .setOnLongClickListener( getLongClickListener() );
+//        PushDownAnim.setPushDownAnimTo( music )
+//                .setScale( PushDownAnim.MODE_STATIC_DP, 2 )
+//                .setOnClickListener( getClickListener() )
+//                .setOnLongClickListener( getLongClickListener() );
+//
+//        PushDownAnim.setPushDownAnimTo( button1 )
+//                .setOnClickListener( getClickListener() )
+//                .setOnLongClickListener( getLongClickListener() );
+//
+//        PushDownAnim.setPushDownAnimTo( button2 )
+//                .setOnClickListener( getClickListener() )
+//                .setOnLongClickListener( getLongClickListener() );
 
 //        [equal]
 //        PushDownAnim.setPushDownAnimTo( button )
-//                .setScale( PushDownAnim.DEFAULT_PUSH_SCALE )
+//                .setScale( PushDownAnim.MODE_SCALE , PushDownAnim.DEFAULT_PUSH_SCALE )
 //                .setDurationPush( PushDownAnim.DEFAULT_PUSH_DURATION )
 //                .setDurationRelease( PushDownAnim.DEFAULT_RELEASE_DURATION )
 //                .setInterpolatorPush( PushDownAnim.DEFAULT_INTERPOLATOR )
@@ -48,14 +49,14 @@ public class MainActivity extends AppCompatActivity{
 //                .setOnClickListener( getClickListener() )
 //                .setOnLongClickListener( getLongClickListener() );
 //        [equal]
-//        PushDownAnim.setPushDownAnimTo( music,button1,button2 )
-//                .setScale( PushDownAnim.DEFAULT_PUSH_SCALE )
-//                .setDurationPush( PushDownAnim.DEFAULT_PUSH_DURATION )
-//                .setDurationRelease( PushDownAnim.DEFAULT_RELEASE_DURATION )
-//                .setInterpolatorPush( PushDownAnim.DEFAULT_INTERPOLATOR )
-//                .setInterpolatorRelease( PushDownAnim.DEFAULT_INTERPOLATOR )
-//                .setOnClickListener( getClickListener() )
-//                .setOnLongClickListener( getLongClickListener() );
+        PushDownAnim.setPushDownAnimTo( music, button1, button2 )
+                .setScale( PushDownAnim.MODE_STATIC_DP , 2 )
+                .setDurationPush( PushDownAnim.DEFAULT_PUSH_DURATION )
+                .setDurationRelease( PushDownAnim.DEFAULT_RELEASE_DURATION )
+                .setInterpolatorPush( PushDownAnim.DEFAULT_INTERPOLATOR )
+                .setInterpolatorRelease( PushDownAnim.DEFAULT_INTERPOLATOR )
+                .setOnClickListener( getClickListener() )
+                .setOnLongClickListener( getLongClickListener() );
     }
 
     @NonNull

@@ -7,39 +7,59 @@ import android.animation.ObjectAnimator;
 import android.animation.TimeInterpolator;
 import android.animation.ValueAnimator;
 import android.graphics.Rect;
+import android.support.annotation.IntDef;
+import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateDecelerateInterpolator;
+
+import java.lang.annotation.Retention;
+
+import static java.lang.annotation.RetentionPolicy.SOURCE;
 
 /**
  * Created by The Khaeng on 09 Sep 2017
  */
 
 public class PushDownAnim implements PushDown{
+    @Retention( SOURCE )
+    @IntDef( {MODE_SCALE, MODE_STATIC_DP} )
+    public @interface Mode{
+    }
+
+
     public static final float DEFAULT_PUSH_SCALE = 0.97f;
+    public static final float DEFAULT_PUSH_STATIC = 2;
     public static final long DEFAULT_PUSH_DURATION = 50;
     public static final long DEFAULT_RELEASE_DURATION = 125;
+    public static final int MODE_SCALE = 0;
+    public static final int MODE_STATIC_DP = 1;
     public static final AccelerateDecelerateInterpolator DEFAULT_INTERPOLATOR
             = new AccelerateDecelerateInterpolator();
 
     private final float defaultScale;
-    private float scale = DEFAULT_PUSH_SCALE;
+    private int mode = MODE_SCALE;
+    private float pushScale = DEFAULT_PUSH_SCALE;
+    private float pushStatic = DEFAULT_PUSH_STATIC;
     private long durationPush = DEFAULT_PUSH_DURATION;
     private long durationRelease = DEFAULT_RELEASE_DURATION;
     private AccelerateDecelerateInterpolator interpolatorPush = DEFAULT_INTERPOLATOR;
     private AccelerateDecelerateInterpolator interpolatorRelease = DEFAULT_INTERPOLATOR;
     private View view;
     private AnimatorSet scaleAnimSet;
+    private int width = 0;
+    private int height = 0;
 
-    private PushDownAnim( View view ){
+
+    private PushDownAnim( final View view ){
         this.view = view;
         this.view.setClickable( true );
         defaultScale = view.getScaleX();
-
     }
 
 
-    public static PushDownAnim setPushDownAnimTo( View view ){
+    public static PushDownAnim setPushDownAnimTo( final View view ){
         PushDownAnim pushAnim = new PushDownAnim( view );
         pushAnim.setOnTouchEvent( null );
         return pushAnim;
@@ -49,10 +69,32 @@ public class PushDownAnim implements PushDown{
         return new PushDownAnimList( views );
     }
 
-
     @Override
     public PushDown setScale( float scale ){
-        this.scale = scale;
+        if( this.mode == MODE_SCALE ){
+            this.pushScale = scale;
+        }else if( this.mode == MODE_STATIC_DP ){
+            this.pushStatic = scale;
+        }
+        return this;
+    }
+
+    @Override
+    public PushDown setScale( @Mode int mode, float scale ){
+        this.mode = mode;
+        if( this.mode == MODE_STATIC_DP ){
+            view.getViewTreeObserver().addOnGlobalLayoutListener(
+                    new ViewTreeObserver.OnGlobalLayoutListener(){
+                        @Override
+                        public void onGlobalLayout(){
+                            view.getViewTreeObserver().removeGlobalOnLayoutListener( this );
+                            width = view.getWidth();
+                            height = view.getHeight();
+                        }
+
+                    } );
+        }
+        this.setScale( scale );
         return this;
     }
 
@@ -115,10 +157,13 @@ public class PushDownAnim implements PushDown{
                                         view.getTop(),
                                         view.getRight(),
                                         view.getBottom() );
-                                animScale( view,
-                                        scale,
+                                makeDecisionAnimScale( view,
+                                        mode,
+                                        pushScale,
+                                        pushStatic,
                                         durationPush,
-                                        interpolatorPush );
+                                        interpolatorPush,
+                                        i );
                             }else if( i == MotionEvent.ACTION_MOVE ){
                                 if( rect != null
                                         && !isOutSide
@@ -126,21 +171,23 @@ public class PushDownAnim implements PushDown{
                                         view.getLeft() + (int) motionEvent.getX(),
                                         view.getTop() + (int) motionEvent.getY() ) ){
                                     isOutSide = true;
-                                    animScale( view,
+                                    makeDecisionAnimScale( view,
+                                            mode,
                                             defaultScale,
+                                            0,
                                             durationRelease,
-                                            interpolatorRelease );
+                                            interpolatorRelease,
+                                            i );
                                 }
-                            }else if( i == MotionEvent.ACTION_CANCEL ){
-                                animScale( view,
+                            }else if( i == MotionEvent.ACTION_CANCEL
+                                    || i == MotionEvent.ACTION_UP ){
+                                makeDecisionAnimScale( view,
+                                        mode,
                                         defaultScale,
+                                        0,
                                         durationRelease,
-                                        interpolatorRelease );
-                            }else if( i == MotionEvent.ACTION_UP ){
-                                animScale( view,
-                                        defaultScale,
-                                        durationRelease,
-                                        interpolatorRelease );
+                                        interpolatorRelease,
+                                        i );
                             }
                         }
                         return false;
@@ -159,6 +206,21 @@ public class PushDownAnim implements PushDown{
         }
 
         return this;
+    }
+
+    /* =========================== Private method =============================================== */
+    private void makeDecisionAnimScale( final View view,
+                                        @Mode int mode,
+                                        float pushScale,
+                                        float pushStatic,
+                                        long duration,
+                                        TimeInterpolator interpolator,
+                                        int action ){
+        float tmpScale = pushScale;
+        if( mode == MODE_STATIC_DP ){
+            tmpScale = getScaleFromStaticSize( pushStatic );
+        }
+        animScale( view, tmpScale, duration, interpolator );
     }
 
     private void animScale( final View view,
@@ -201,6 +263,25 @@ public class PushDownAnim implements PushDown{
             }
         } );
         scaleAnimSet.start();
+    }
+
+    private float getScaleFromStaticSize( float sizeStaticDp ){
+        if( sizeStaticDp <= 0 ) return defaultScale;
+
+        float sizePx = dpToPx( sizeStaticDp );
+        if( width > height ){
+            if( sizePx > width ) return 1.0f;
+            float pushWidth = width - ( sizePx * 2 );
+            return pushWidth / width;
+        }else{
+            if( sizePx > height ) return 1.0f;
+            float pushHeight = height - ( sizePx * 2 );
+            return pushHeight / (float) height;
+        }
+    }
+
+    private float dpToPx( final float dp ){
+        return TypedValue.applyDimension( TypedValue.COMPLEX_UNIT_DIP, dp, view.getResources().getDisplayMetrics() );
     }
 
 

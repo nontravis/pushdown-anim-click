@@ -10,6 +10,7 @@ resources/
 *.ai
 *.psd
 *.svg
+*.mp4
 
 
 # Files for the ART/Dalvik VM

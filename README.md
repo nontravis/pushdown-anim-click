@@ -7,7 +7,7 @@
 #### A library for Android developers who want to create "push down animation click" for view like spotify application. :)
 
 ![alt text](./pictures/screenshot_1.png)
-![alt text](./pictures/example.gif)
+![alt text](./pictures/push_down_anim.gif)
 
 
 ## 「 DEMO APPLICATION 」
@@ -17,8 +17,11 @@ clone repo and build it :)
 ```
 
 ## 「 UPDATE 」
-- **version: 1.0.9**
+- **version: 1.1.0**
 	- add `setOnLongClickListener(...)`
+	- add new mode
+	    - `MODE_SCALE`
+	    - `MODE_STATIC_DP`
 
 - **version: 1.0.8**
 	- change `setOnTouchPushDownAnim(...)` to `setPushDownAnimTo(...) `
@@ -31,14 +34,14 @@ Maven
 <dependency>
   <groupId>com.github.thekhaeng</groupId>
   <artifactId>pushdown-anim-click</artifactId>
-  <version>1.0.9</version>
+  <version>1.1.0</version>
   <type>pom</type>
 </dependency>
 ```
 
 Gradle
 ```gradle
-compile( 'com.github.thekhaeng:pushdown-anim-click:1.0.9' ){
+compile( 'com.github.thekhaeng:pushdown-anim-click:1.1.0' ){
     exclude group: 'com.android.support'
 }
 ```
@@ -63,7 +66,7 @@ PushDownAnim.setPushDownAnimTo( button, ... )
 
 ```java
 PushDownAnim.setPushDownAnimTo( button, ... )
-        .setScale( PushDownAnim.DEFAULT_PUSH_SCALE )
+        .setScale( MODE_SCALE | MODE_STATIC_DP,  PushDownAnim.DEFAULT_PUSH_SCALE | PushDownAnim.DEFAULT_PUSH_STATIC  ) // default is MODE_SCALE
         .setDurationPush( PushDownAnim.DEFAULT_PUSH_DURATION )
         .setDurationRelease( PushDownAnim.DEFAULT_RELEASE_DURATION )
         .setInterpolatorPush( PushDownAnim.DEFAULT_INTERPOLATOR )
@@ -84,7 +87,30 @@ PushDownAnim.setPushDownAnimTo( button, ... )
 ```
 
 
+#### MODE
+
+`MODE_SCALE`: use range scale **0.00 - 1.00** to push down view.
+
+>**EXAMPLE:** 8dp base is 0.89 scale.
+
+![TheKhaeng](./pictures/push_down_scale.gif)
+
+
+`MODE_STATIC_DP`: use static dp unit to push down view.
+
+>**EXAMPLE:** 8dp static scale.
+
+>**NOTE:** MODE_STATIC_DP use `ViewTreeObserver.OnGlobalLayoutListener` to calculate view size.
+
+
+![TheKhaeng](./pictures/push_down_static.gif)
+
+
+
+
 ## 「 Long Click 」
+
+`setOnClickListener(...)`
 
 ```java
 @Override
@@ -98,14 +124,11 @@ public boolean onLongClick( View view ){
 
 ## 「 Disable Click Programmatically 」
 
-if your project has logic that want to disable click programmatically.
+If your project has logic that want to disable click programmatically. You must use **``setEnabled(...)``** (do not use **`setClickable(...)`** it is not effective.)
 
 ```java
 button.setEnabled( false );
 ```
-
->NOTE: Do not use **`button.setClickable(false)`** it is not effective.
-
 
 
 # Licence

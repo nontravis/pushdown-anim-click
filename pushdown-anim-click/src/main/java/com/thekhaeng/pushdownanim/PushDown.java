@@ -10,6 +10,8 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 public interface PushDown{
     PushDown setScale( float scale );
 
+    PushDown setScale( @PushDownAnim.Mode int mode, float scale );
+
     PushDown setDurationPush( long duration );
 
     PushDown setDurationRelease( long duration );
