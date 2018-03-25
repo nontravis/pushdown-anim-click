@@ -73,7 +73,7 @@ PushDownAnim.setPushDownAnimTo( button, ... )
 ```java
 PushDownAnim.setPushDownAnimTo( button, ... )
         .setScale( MODE_SCALE | MODE_STATIC_DP,
-          		  PushDownAnim.DEFAULT_PUSH_SCALE | PushDownAnim.DEFAULT_PUSH_STATIC  ) // default is MODE_SCALE
+         	   PushDownAnim.DEFAULT_PUSH_SCALE | PushDownAnim.DEFAULT_PUSH_STATIC  ) // default is MODE_SCALE
         .setDurationPush( PushDownAnim.DEFAULT_PUSH_DURATION )
         .setDurationRelease( PushDownAnim.DEFAULT_RELEASE_DURATION )
         .setInterpolatorPush( PushDownAnim.DEFAULT_INTERPOLATOR )
@@ -87,7 +87,7 @@ PushDownAnim.setPushDownAnimTo( button, ... )
         .setOnLongClickListener( new View.OnLongClickListener(){
             @Override
             public boolean onLongClick( View view ){
-				   Toast.makeText( MainActivity.this, "LONG PUSH DOWN !!", Toast.LENGTH_SHORT ).show();
+		Toast.makeText( MainActivity.this, "LONG PUSH DOWN !!", Toast.LENGTH_SHORT ).show();
                 return true; // true: not effect to single click
             }
         } )
