@@ -68,12 +68,12 @@ PushDownAnim.setPushDownAnimTo( button, ... )
 
 ```
 
-#### full option
+#### Full option
 
 ```java
 PushDownAnim.setPushDownAnimTo( button, ... )
         .setScale( MODE_SCALE | MODE_STATIC_DP,
-         	   PushDownAnim.DEFAULT_PUSH_SCALE | PushDownAnim.DEFAULT_PUSH_STATIC  ) // default is MODE_SCALE
+         	   PushDownAnim.DEFAULT_PUSH_SCALE | PushDownAnim.DEFAULT_PUSH_STATIC  ) 
         .setDurationPush( PushDownAnim.DEFAULT_PUSH_DURATION )
         .setDurationRelease( PushDownAnim.DEFAULT_RELEASE_DURATION )
         .setInterpolatorPush( PushDownAnim.DEFAULT_INTERPOLATOR )
@@ -99,6 +99,14 @@ PushDownAnim.setPushDownAnimTo( button, ... )
         } );
 
 ```
+
+#### Default values
+
+- Default mode: `MODE_SCALE`
+- Default scale: `0.97f`
+- Default push duration: `50 millisecond`
+- Default release duration:  `125 millisecond`
+- Default interpolator push/release: `AccelerateDecelerateInterpolator()`
 
 
 ## 「 MODE 」
