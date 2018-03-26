@@ -117,6 +117,11 @@ PushDownAnim.setPushDownAnimTo( button, ... )
 
 ![TheKhaeng](./pictures/push_down_scale.gif)
 
+```java
+PushDownAnim.setPushDownAnimTo( button )
+	.setScale( MODE_SCALE, 0.89f  ) 
+        ...;
+```
 
 **2. `MODE_STATIC_DP`**: use static dp unit to push down view.
 
@@ -126,6 +131,12 @@ PushDownAnim.setPushDownAnimTo( button, ... )
 
 
 ![TheKhaeng](./pictures/push_down_static.gif)
+
+```java
+PushDownAnim.setPushDownAnimTo( button )
+	.setScale( MODE_STATIC_DP, 8  ) 
+        ...;
+```
 
 
 
