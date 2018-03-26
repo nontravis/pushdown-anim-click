@@ -113,7 +113,7 @@ PushDownAnim.setPushDownAnimTo( button, ... )
 
 **1. `MODE_SCALE`**: use range scale **0.00 - 1.00** to push down view.
 
->**EXAMPLE:** 8dp = 0.89 scale
+>**EXAMPLE:** This case 8dp = 0.89 scale
 
 ![TheKhaeng](./pictures/push_down_scale.gif)
 
