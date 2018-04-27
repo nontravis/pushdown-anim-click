@@ -11,10 +11,10 @@ import android.support.annotation.IntDef;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateDecelerateInterpolator;
 
 import java.lang.annotation.Retention;
+import java.lang.ref.WeakReference;
 
 import static java.lang.annotation.RetentionPolicy.SOURCE;
 
@@ -46,15 +46,12 @@ public class PushDownAnim implements PushDown{
     private long durationRelease = DEFAULT_RELEASE_DURATION;
     private AccelerateDecelerateInterpolator interpolatorPush = DEFAULT_INTERPOLATOR;
     private AccelerateDecelerateInterpolator interpolatorRelease = DEFAULT_INTERPOLATOR;
-    private View view;
+    private WeakReference<View> weakView;
     private AnimatorSet scaleAnimSet;
-    private int width = 0;
-    private int height = 0;
-
 
     private PushDownAnim( final View view ){
-        this.view = view;
-        this.view.setClickable( true );
+        this.weakView = new WeakReference<>(view) ;
+        this.weakView.get().setClickable( true );
         defaultScale = view.getScaleX();
     }
 
@@ -82,18 +79,6 @@ public class PushDownAnim implements PushDown{
     @Override
     public PushDown setScale( @Mode int mode, float scale ){
         this.mode = mode;
-        if( this.mode == MODE_STATIC_DP ){
-            view.getViewTreeObserver().addOnGlobalLayoutListener(
-                    new ViewTreeObserver.OnGlobalLayoutListener(){
-                        @Override
-                        public void onGlobalLayout(){
-                            view.getViewTreeObserver().removeGlobalOnLayoutListener( this );
-                            width = view.getWidth();
-                            height = view.getHeight();
-                        }
-
-                    } );
-        }
         this.setScale( scale );
         return this;
     }
@@ -124,25 +109,25 @@ public class PushDownAnim implements PushDown{
 
     @Override
     public PushDown setOnClickListener( View.OnClickListener clickListener ){
-        if( view != null ){
-            view.setOnClickListener( clickListener );
+        if( weakView.get() != null ){
+            weakView.get().setOnClickListener( clickListener );
         }
         return this;
     }
 
     @Override
     public PushDown setOnLongClickListener( View.OnLongClickListener clickListener ){
-        if( view != null ){
-            view.setOnLongClickListener( clickListener );
+        if( weakView.get() != null ){
+            weakView.get().setOnLongClickListener( clickListener );
         }
         return this;
     }
 
     @Override
     public PushDown setOnTouchEvent( final View.OnTouchListener eventListener ){
-        if( view != null ){
+        if( weakView.get() != null ){
             if( eventListener == null ){
-                view.setOnTouchListener( new View.OnTouchListener(){
+                weakView.get().setOnTouchListener( new View.OnTouchListener(){
                     boolean isOutSide;
                     Rect rect;
 
@@ -195,11 +180,11 @@ public class PushDownAnim implements PushDown{
                 } );
 
             }else{
-                view.setOnTouchListener( new View.OnTouchListener(){
+                weakView.get().setOnTouchListener( new View.OnTouchListener(){
 
                     @Override
                     public boolean onTouch( View v, MotionEvent motionEvent ){
-                        return eventListener.onTouch( view, motionEvent );
+                        return eventListener.onTouch( weakView.get(), motionEvent );
                     }
                 } );
             }
@@ -269,19 +254,27 @@ public class PushDownAnim implements PushDown{
         if( sizeStaticDp <= 0 ) return defaultScale;
 
         float sizePx = dpToPx( sizeStaticDp );
-        if( width > height ){
-            if( sizePx > width ) return 1.0f;
-            float pushWidth = width - ( sizePx * 2 );
-            return pushWidth / width;
+        if( getViewWidth() > getViewHeight() ){
+            if( sizePx > getViewWidth() ) return 1.0f;
+            float pushWidth = getViewWidth() - ( sizePx * 2 );
+            return pushWidth / getViewWidth();
         }else{
-            if( sizePx > height ) return 1.0f;
-            float pushHeight = height - ( sizePx * 2 );
-            return pushHeight / (float) height;
+            if( sizePx > getViewHeight() ) return 1.0f;
+            float pushHeight = getViewHeight() - ( sizePx * 2 );
+            return pushHeight / (float) getViewHeight();
         }
     }
 
+    private int getViewHeight(){
+        return weakView.get().getMeasuredHeight();
+    }
+
+    private int getViewWidth(){
+        return weakView.get().getMeasuredWidth();
+    }
+
     private float dpToPx( final float dp ){
-        return TypedValue.applyDimension( TypedValue.COMPLEX_UNIT_DIP, dp, view.getResources().getDisplayMetrics() );
+        return TypedValue.applyDimension( TypedValue.COMPLEX_UNIT_DIP, dp, weakView.get().getResources().getDisplayMetrics() );
     }
 
 

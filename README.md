@@ -23,6 +23,9 @@ or
 </a>
 
 ## 「 UPDATE 」
+- **version: 1.1.1**
+	- remove `ViewTreeObserver.OnGlobalLayoutListener` use getMeasuredWidth()/getMeasuredHeight() instead
+
 - **version: 1.1.0**
 	- add `setOnLongClickListener(...)`
 	- add new mode
@@ -40,14 +43,14 @@ Maven
 <dependency>
   <groupId>com.github.thekhaeng</groupId>
   <artifactId>pushdown-anim-click</artifactId>
-  <version>1.1.0</version>
+  <version>1.1.1</version>
   <type>pom</type>
 </dependency>
 ```
 
 Gradle
 ```gradle
-compile( 'com.github.thekhaeng:pushdown-anim-click:1.1.0' ){
+compile( 'com.github.thekhaeng:pushdown-anim-click:1.1.1' ){
     exclude group: 'com.android.support'
 }
 ```
@@ -113,7 +116,7 @@ PushDownAnim.setPushDownAnimTo( button, ... )
 
 **1. `MODE_SCALE`**: use range scale **0.00 - 1.00** to push down view.
 
->**EXAMPLE:** This case 8dp = 0.89 scale
+>**EXAMPLE:** This case 8dp ≈ 0.89 scale
 
 ![TheKhaeng](./pictures/push_down_scale.gif)
 
@@ -126,8 +129,6 @@ PushDownAnim.setPushDownAnimTo( button )
 **2. `MODE_STATIC_DP`**: use static dp unit to push down view.
 
 >**EXAMPLE:** 8dp static scale
-
->**NOTE:** MODE_STATIC_DP use `ViewTreeObserver.OnGlobalLayoutListener` to calculate view size.
 
 
 ![TheKhaeng](./pictures/push_down_static.gif)

@@ -4,6 +4,7 @@
 *.ap_
 reports/
 pushlibrary*
+*.json
 
 # Media
 resources/
